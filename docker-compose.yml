@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+
+  traefik:
+    image: traefik:v2.2
+    container_name: traefik
+    command:
+      - --api.insecure=true #remove in production!
+      - --api.dashboard=true #remove in production!
+      - --providers.docker
+      - --providers.docker.exposedByDefault=false
+      - --log.level=DEBUG
+      - --entryPoints.web.address=:80
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "9000:9000"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.$HOST_NAME`)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  app:
+    image: thecodingmachine/php:7.4-v4-apache-node14
+    container_name: app
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`$HOST_NAME`)
+      - traefik.http.routers.api.entrypoints=web
+    environment:
+      APACHE_DOCUMENT_ROOT: "public/"
+      PHP_EXTENSION_XDEBUG: "1"
+      PHP_INI_XDEBUG__REMOTE_AUTOSTART: 1
+      PHP_INI_XDEBUG__REMOTE_CONNECT_BACK: 1
+      PHP_INI_XDEBUG__REMOTE_PORT: 9042
+      PHP_EXTENSION_WEAKREF: "1"
+      PHP_EXTENSION_GD: "1"
+      PHP_EXTENSION_INTL: "1"
+      PHP_INI_UPLOAD_MAX_FILESIZE: "50M"
+      PHP_INI_POST_MAX_SIZE: "50M"
+      STARTUP_COMMAND_1: "composer install"
+      APP_ENV: "dev"
+      APP_SECRET: "8d2a5c935d8ef1c0e2b751147382bc75"
+    volumes:
+      - .:/var/www/html:rw
+
+  mysql:
+    image: thecodingmachine/mysql:8.0-v1
+    container_name: mysql
+    command: --sql-mode=""
+    environment:
+      MYSQLD_INI_DEFAULT_AUTHENTICATION_PLUGIN: "mysql_native_password"
+      MYSQL_ROOT_PASSWORD: "$DB_PASSWORD"
+      MYSQL_DATABASE: "$DB_DATABASE"
+      MYSQL_USER: "$DB_USERNAME"
+      MYSQL_PASSWORD: "$DB_PASSWORD"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin: #remove in production!
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.$HOST_NAME`)
+      - traefik.http.routers.phpmyadmin.entrypoints=web
+    environment:
+      PMA_HOST: "mysql"
+
+
+volumes:
+  mysql_data:
+    driver: local
