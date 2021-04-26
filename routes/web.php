@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/delete/{id}', [HomeController::class, 'delete'])->name('weed.delete');
+Route::get('/edit/{id}', [HomeController::class, 'edit'])->name('weed.edit');
+Route::post('/update/{id}', [HomeController::class, 'update'])->name('weed.update');
+Route::get('/create', [HomeController::class, 'create'])->name('weed.create');
+Route::post('/store', [HomeController::class, 'store'])->name('weed.store');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -7,10 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <title>{{ config('app.name', 'SpaceWeed') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -23,8 +20,9 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand d-flex align-items-center p-0" href="{{ url('/') }}">
+                    <img class="weed-logo" src="/images/weed.svg" alt="">
+                    SpaceW{{ str_repeat("e", random_int(2, 15)) }}d
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -75,9 +73,11 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" id="particles-js">
             @yield('content')
         </main>
     </div>
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

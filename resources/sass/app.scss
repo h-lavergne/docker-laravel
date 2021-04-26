@@ -6,3 +6,65 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+body {
+    background-image: url('https://cdn.futura-sciences.com/buildsv6/images/wide1920/5/c/6/5c64119d89_88056_shutterstock-openrangestock.jpg');
+    table {
+        background-color: #ffffffe0;
+    }
+    animation: drogue 5s linear infinite;
+}
+
+#app {
+    transition: filter 500ms;
+}
+
+main {
+    min-height: 94.3vh;
+}
+
+.blur {
+    filter: blur(3px) invert(10%);
+}
+
+
+.weed-logo {
+    width: 35px;
+    height: 35px;
+    margin-right: 15px;
+    animation: satourne 6s linear infinite;
+}
+
+@keyframes satourne {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    50% {
+        transform:  rotateY(180deg)
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+@keyframes drogue {
+    from {
+        filter: hue-rotate(0deg) contrast(100%);
+    }
+
+    50% {
+        filter: hue-rotate(360deg) contrast(180%);
+    }
+
+    to {
+        filter: hue-rotate(0deg) contrast(100%);
+    }
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    z-index: -10;
+}

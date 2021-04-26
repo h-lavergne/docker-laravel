@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\SpaceWeed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/', function (Request $request) {
+    return "y'a r on deal pas ici circulez";
+});
+
+Route::get('/weeds', function (Request $request) {
+    return SpaceWeed::all();
+});
+
+Route::get('/weeds/delete/{id}', function(Request $request, $id) {
+    $weed = SpaceWeed::find($id);
+    $weed->delete();
+    return "c bon c supprimé chakal";
 });
