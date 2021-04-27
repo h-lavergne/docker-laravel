@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+    traefik.enable: "true"
+    traefik.http.routers.traefik.rule: Host(`traefik.`)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: traefik
+  name: traefik
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: traefik
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+        traefik.enable: "true"
+        traefik.http.routers.traefik.rule: Host(`traefik.`)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: traefik
+    spec:
+      containers:
+        - args:
+            - --api.insecure=true
+            - --api.dashboard=true
+            - --providers.docker
+            - --providers.docker.exposedByDefault=false
+            - --log.level=DEBUG
+            - --entryPoints.web.address=:80
+          image: traefik:v2.2
+          name: traefik
+          ports:
+            - containerPort: 80
+            - containerPort: 8080
+            - containerPort: 9000
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: traefik-claim0
+      restartPolicy: Always
+      volumes:
+        - name: traefik-claim0
+          persistentVolumeClaim:
+            claimName: traefik-claim0
+status: {}

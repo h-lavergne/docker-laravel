@@ -30,14 +30,14 @@ class HomeController extends Controller
     }
 
 
-    public function delete($id) 
+    public function delete($id)
     {
         $weed = SpaceWeed::find($id);
         $weed->delete();
         return redirect()->back();
     }
 
-    public function edit($id) 
+    public function edit($id)
     {
         return view('weed.edit', [
             'spaceWeed' => SpaceWeed::find($id)
