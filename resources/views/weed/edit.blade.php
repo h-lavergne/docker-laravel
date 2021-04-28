@@ -26,7 +26,7 @@
             <label for="price">Prix</label>
             <input type="number" name="price" class="form-control shadow" value="{{$spaceWeed->price}}">
         </div>  
-        <div class="col-md">O
+        <div class="col-md">
             <label for="quantity">Quantité</label>
             <input type="number" name="quantity" class="form-control shadow" value="{{$spaceWeed->quantity}}">
         </div> 

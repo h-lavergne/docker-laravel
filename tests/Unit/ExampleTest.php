@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use App\Http\Controllers\HomeController;
 
 class ExampleTest extends TestCase
 {
@@ -11,8 +12,8 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function testIsSorted()
     {
-        $this->assertTrue(true);
+        $response = $this->assertTrue(true);
     }
 }
