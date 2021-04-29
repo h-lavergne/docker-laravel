@@ -22,8 +22,6 @@ class FunctionalTest extends TestCase
         $response->assertSeeText('ADDITADO UNO WEEDO +');
         $response->assertSeeText('EDITADO');
         $response->assertSeeText('SUPPRIMADO');
-        $response->assertDontSeeText('hugo la pute');
-
     }
 
     public function testIsCreateWorking()
